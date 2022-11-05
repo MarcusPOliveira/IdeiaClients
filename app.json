@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "IdeiaClients",
+    "slug": "IdeiaClients",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
