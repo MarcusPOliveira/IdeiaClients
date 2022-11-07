@@ -17,6 +17,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { Header } from '../../components/Header';
 import { InputForm } from '../../components/InputForm';
+import { Button } from '../../components/Button';
 import {
   Container,
   Content,
@@ -29,7 +30,15 @@ import {
   InputLabel,
   Footer,
 } from './styles';
-import { Button } from '../../components/Button';
+
+type FormDataProps = {
+  name: string;
+  companyName: string;
+  email: string;
+  cpf: string;
+  cnpj: string;
+  city: string;
+}
 
 export function NewClient() {
   const [formTypeSelected, setFormTypeSelected] = useState<'pf' | 'pj'>('pf');
@@ -45,7 +54,7 @@ export function NewClient() {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
-        keyboardVerticalOffset={80}
+        keyboardVerticalOffset={50}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <>
@@ -76,86 +85,148 @@ export function NewClient() {
               <TitleWrapper>
                 <Title>Preencha os dados do cliente</Title>
               </TitleWrapper>
-              <Controller
-                control={control}
-                name="name"
-                render={({ field: { onChange, value } }) => (
-                  <Form>
-                    {
-                      formTypeSelected === "pf" ?
-                        <>
-                          <InputLabel>Nome completo</InputLabel>
-                          <InputForm
-                            iconName={User}
-                            placeholder="Digite o nome completo"
-                            autoCapitalize='words'
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                          <InputLabel>Email</InputLabel>
-                          <InputForm
-                            iconName={At}
-                            placeholder="exemplo@exemplo.com"
-                            keyboardType='email-address'
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                          <InputLabel>CPF</InputLabel>
-                          <InputForm
-                            iconName={IdentificationCard}
-                            placeholder="000.000.000-00"
-                            keyboardType='number-pad'
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                          <InputLabel>Cidade</InputLabel>
-                          <InputForm
-                            iconName={MapPin}
-                            placeholder="Digite a cidade"
-                            autoCapitalize='words'
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                        </>
-                        :
-                        <>
-                          <InputLabel>Razão Social</InputLabel>
-                          <InputForm
-                            iconName={Briefcase}
-                            placeholder="Razão Social"
-                            autoCapitalize='words'
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                          <InputLabel>Email</InputLabel>
-                          <InputForm
-                            iconName={At}
-                            placeholder="exemplo@exemplo.com"
-                            keyboardType='email-address'
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                          <InputLabel>CNPJ</InputLabel>
-                          <InputForm
-                            iconName={Buildings}
-                            placeholder="00.000.000/0000-00"
-                            keyboardType='number-pad'
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                          <InputLabel>Cidade</InputLabel>
-                          <InputForm
-                            iconName={MapPin}
-                            placeholder="Digite a cidade"
-                            autoCapitalize='words'
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                        </>
-                    }
-                  </Form>
-                )}
-              />
+              <Form>
+                {
+                  formTypeSelected === "pf" ?
+                    <>
+                      <Controller
+                        control={control}
+                        name="name"
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <InputLabel>Nome completo</InputLabel>
+                            <InputForm
+                              iconName={User}
+                              placeholder="Digite o nome completo"
+                              autoCapitalize='words'
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          </>
+                        )}
+                      />
+                      <Controller
+                        control={control}
+                        name="email"
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <InputLabel>Email</InputLabel>
+                            <InputForm
+                              iconName={At}
+                              placeholder="exemplo@exemplo.com"
+                              keyboardType='email-address'
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          </>
+                        )}
+                      />
+                      <Controller
+                        control={control}
+                        name="cpf"
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <InputLabel>CPF</InputLabel>
+                            <InputForm
+                              iconName={IdentificationCard}
+                              placeholder="000.000.000-00"
+                              keyboardType='number-pad'
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          </>
+                        )}
+                      />
+                      <Controller
+                        control={control}
+                        name="city"
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <InputLabel>Cidade</InputLabel>
+                            <InputForm
+                              iconName={MapPin}
+                              placeholder="Digite a cidade"
+                              autoCapitalize='words'
+                              onSubmitEditing={handleSubmit(handleRegister)}
+                              returnKeyType="send"
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          </>
+                        )}
+                      />
+                    </>
+                    :
+                    <>
+                      <Controller
+                        control={control}
+                        name="companyName"
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <InputLabel>Razão Social</InputLabel>
+                            <InputForm
+                              iconName={Briefcase}
+                              placeholder="Razão Social"
+                              autoCapitalize='words'
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          </>
+                        )}
+                      />
+                      <Controller
+                        control={control}
+                        name="email"
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <InputLabel>Email</InputLabel>
+                            <InputForm
+                              iconName={At}
+                              placeholder="exemplo@exemplo.com"
+                              keyboardType='email-address'
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          </>
+                        )}
+                      />
+                      <Controller
+                        control={control}
+                        name="cnpj"
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <InputLabel>CNPJ</InputLabel>
+                            <InputForm
+                              iconName={Buildings}
+                              placeholder="00.000.000/0000-00"
+                              keyboardType='number-pad'
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          </>
+                        )}
+                      />
+                      <Controller
+                        control={control}
+                        name="city"
+                        render={({ field: { onChange, value } }) => (
+                          <>
+                            <InputLabel>Cidade</InputLabel>
+                            <InputForm
+                              iconName={MapPin}
+                              placeholder="Digite a cidade"
+                              autoCapitalize='words'
+                              onSubmitEditing={handleSubmit(handleRegister)}
+                              returnKeyType="send"
+                              onChangeText={onChange}
+                              value={value}
+                            />
+                          </>
+                        )}
+                      />
+                    </>
+                }
+              </Form>
               <Footer>
                 <Button
                   title="Cadastrar"
