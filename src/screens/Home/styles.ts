@@ -10,19 +10,6 @@ export const Container = styled(LinearGradient).attrs(({ theme }) => ({
   flex: 1;
 `;
 
-export const Header = styled.View`
-  flex: 0.15;
-  align-items: center;
-  justify-content: center;
-  padding-top: 15px;
-`;
-
-export const Title = styled.Text`
-  font-size: ${RFValue(22)}px;
-  font-family: ${({ theme }) => theme.fonts.bold};
-  color: ${({ theme }) => theme.colors.white};
-`;
-
 export const Content = styled.View`
   flex: 1;
   align-items: center;

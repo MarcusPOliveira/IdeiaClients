@@ -4,28 +4,20 @@ import { useTheme } from 'styled-components/native';
 
 import {
   Container,
-  BackButton,
   TitleWrapper,
   Title,
 } from './styles';
 
 type Props = {
   title: string;
-  hasBackButton?: boolean;
 }
 
-export function Header({ title, hasBackButton = false }: Props) {
+export function Header({ title }: Props) {
 
   const { colors } = useTheme();
 
   return (
     <Container>
-      {
-        hasBackButton &&
-        <BackButton>
-          <CaretLeft size={32} color={colors.white} />
-        </BackButton>
-      }
       <TitleWrapper>
         <Title>{title}</Title>
       </TitleWrapper>
