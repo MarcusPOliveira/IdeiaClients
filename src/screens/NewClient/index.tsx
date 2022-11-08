@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -13,6 +13,7 @@ import {
   Buildings,
   MapPin
 } from 'phosphor-react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
@@ -47,7 +48,7 @@ const registerSchema = yup.object({
   name: yup.string().required('Informe o nome'),
   companyName: yup.string().required('Informe o nome da empresa'),
   email: yup.string().required('Informe o email').email('Email inválido'),
-  cpf: yup.string().required('Informe o CPF').test('test-invalid-cpf', 'cpf inválido', (cpf) => validateCpf(cpf)),
+  cpf: yup.string().required('Informe o CPF').test('test-invalid-cpf', 'CPF inválido', (cpf) => validateCpf(cpf)),
   cnpj: yup.string().required('Informe o CNPJ'),
   city: yup.string().required('Inform a cidade'),
 });
@@ -62,6 +63,11 @@ export function NewClient() {
   async function handleRegister(data: FormDataProps) {
     console.log(data)
   }
+
+  useEffect(
+    useCallback(() => {
+
+    }, [formTypeSelected]));
 
   return (
     <Container>
