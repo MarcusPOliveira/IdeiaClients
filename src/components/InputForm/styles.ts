@@ -7,11 +7,14 @@ type Props = {
 }
 
 export const Container = styled.View`
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+export const InputWrapper = styled.View`
   flex-direction: row;
   width: 100%;
   height: 56px;
-  margin-top: 3px;
-  margin-bottom: 15px;
 `;
 
 export const IconContainer = styled.View<Props>`
@@ -37,4 +40,10 @@ export const InputText = styled(TextInput) <Props>`
   font-size: ${RFValue(16)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.text};
+`;
+
+export const ErrorLabel = styled.Text`
+  font-size: ${RFValue(16)}px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.alert};
 `;

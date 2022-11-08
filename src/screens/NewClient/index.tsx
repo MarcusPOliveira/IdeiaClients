@@ -43,9 +43,9 @@ type FormDataProps = {
 export function NewClient() {
   const [formTypeSelected, setFormTypeSelected] = useState<'pf' | 'pj'>('pf');
 
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>();
 
-  async function handleRegister(data: any) {
+  async function handleRegister(data: FormDataProps) {
     console.log(data)
   }
 
@@ -101,6 +101,7 @@ export function NewClient() {
                               autoCapitalize='words'
                               onChangeText={onChange}
                               value={value}
+                              errorMessage={errors.name?.message}
                             />
                           </>
                         )}
@@ -117,6 +118,7 @@ export function NewClient() {
                               keyboardType='email-address'
                               onChangeText={onChange}
                               value={value}
+                              errorMessage={errors.email?.message}
                             />
                           </>
                         )}
@@ -133,6 +135,7 @@ export function NewClient() {
                               keyboardType='number-pad'
                               onChangeText={onChange}
                               value={value}
+                              errorMessage={errors.cpf?.message}
                             />
                           </>
                         )}
@@ -151,6 +154,7 @@ export function NewClient() {
                               returnKeyType="send"
                               onChangeText={onChange}
                               value={value}
+                              errorMessage={errors.city?.message}
                             />
                           </>
                         )}
@@ -170,6 +174,7 @@ export function NewClient() {
                               autoCapitalize='words'
                               onChangeText={onChange}
                               value={value}
+                              errorMessage={errors.companyName?.message}
                             />
                           </>
                         )}
@@ -186,6 +191,7 @@ export function NewClient() {
                               keyboardType='email-address'
                               onChangeText={onChange}
                               value={value}
+                              errorMessage={errors.email?.message}
                             />
                           </>
                         )}
@@ -202,6 +208,7 @@ export function NewClient() {
                               keyboardType='number-pad'
                               onChangeText={onChange}
                               value={value}
+                              errorMessage={errors.cnpj?.message}
                             />
                           </>
                         )}
@@ -220,6 +227,7 @@ export function NewClient() {
                               returnKeyType="send"
                               onChangeText={onChange}
                               value={value}
+                              errorMessage={errors.city?.message}
                             />
                           </>
                         )}
