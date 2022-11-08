@@ -13,8 +13,11 @@ import {
   Buildings,
   MapPin
 } from 'phosphor-react-native';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
 
+import { validateCpf } from '../../utils/validateCpf';
 import { Header } from '../../components/Header';
 import { InputForm } from '../../components/InputForm';
 import { Button } from '../../components/Button';
@@ -40,10 +43,21 @@ type FormDataProps = {
   city: string;
 }
 
+const registerSchema = yup.object({
+  name: yup.string().required('Informe o nome'),
+  companyName: yup.string().required('Informe o nome da empresa'),
+  email: yup.string().required('Informe o email').email('Email inválido'),
+  cpf: yup.string().required('Informe o CPF').test('test-invalid-cpf', 'cpf inválido', (cpf) => validateCpf(cpf)),
+  cnpj: yup.string().required('Informe o CNPJ'),
+  city: yup.string().required('Inform a cidade'),
+});
+
 export function NewClient() {
   const [formTypeSelected, setFormTypeSelected] = useState<'pf' | 'pj'>('pf');
 
-  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>();
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
+    resolver: yupResolver(registerSchema)
+  });
 
   async function handleRegister(data: FormDataProps) {
     console.log(data)
@@ -101,6 +115,7 @@ export function NewClient() {
                               autoCapitalize='words'
                               onChangeText={onChange}
                               value={value}
+                              isInvalid={errors.name?.message ? true : false}
                               errorMessage={errors.name?.message}
                             />
                           </>
@@ -118,6 +133,7 @@ export function NewClient() {
                               keyboardType='email-address'
                               onChangeText={onChange}
                               value={value}
+                              isInvalid={errors.email?.message ? true : false}
                               errorMessage={errors.email?.message}
                             />
                           </>
@@ -135,6 +151,7 @@ export function NewClient() {
                               keyboardType='number-pad'
                               onChangeText={onChange}
                               value={value}
+                              isInvalid={errors.cpf?.message ? true : false}
                               errorMessage={errors.cpf?.message}
                             />
                           </>
@@ -154,6 +171,7 @@ export function NewClient() {
                               returnKeyType="send"
                               onChangeText={onChange}
                               value={value}
+                              isInvalid={errors.city?.message ? true : false}
                               errorMessage={errors.city?.message}
                             />
                           </>
@@ -174,6 +192,7 @@ export function NewClient() {
                               autoCapitalize='words'
                               onChangeText={onChange}
                               value={value}
+                              isInvalid={errors.companyName?.message ? true : false}
                               errorMessage={errors.companyName?.message}
                             />
                           </>
@@ -191,6 +210,7 @@ export function NewClient() {
                               keyboardType='email-address'
                               onChangeText={onChange}
                               value={value}
+                              isInvalid={errors.email?.message ? true : false}
                               errorMessage={errors.email?.message}
                             />
                           </>
@@ -208,6 +228,7 @@ export function NewClient() {
                               keyboardType='number-pad'
                               onChangeText={onChange}
                               value={value}
+                              isInvalid={errors.cnpj?.message ? true : false}
                               errorMessage={errors.cnpj?.message}
                             />
                           </>
@@ -227,6 +248,7 @@ export function NewClient() {
                               returnKeyType="send"
                               onChangeText={onChange}
                               value={value}
+                              isInvalid={errors.city?.message ? true : false}
                               errorMessage={errors.city?.message}
                             />
                           </>
