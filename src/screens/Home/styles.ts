@@ -13,6 +13,7 @@ export const Container = styled(LinearGradient).attrs(({ theme }) => ({
 export const Content = styled.View`
   flex: 1;
   align-items: center;
+  justify-content: space-evenly;
   background-color: ${({ theme }) => theme.colors.white};
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -20,22 +21,13 @@ export const Content = styled.View`
 `;
 
 export const ApresentationImage = styled.Image`
-  width: 250px;
-  height: 130px;
-  margin-top: 30px;
+  width: 300px;
+  height: 250px;
 `;
 
 export const Subtitle = styled.Text`
-  font-size: ${RFValue(18)}px;
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-size: ${RFValue(22)}px;
+  font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.colors.text};
   text-align: center;
-  margin-top: 30px;
-`;
-
-export const MenuWrapper = styled.View`
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 20px 20px;
 `;

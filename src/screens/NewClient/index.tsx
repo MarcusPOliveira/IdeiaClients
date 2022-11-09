@@ -18,6 +18,7 @@ import * as yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
 
 import { validateCpf } from '../../utils/validateCpf';
+import { Load } from '../../components/Load';
 import { Header } from '../../components/Header';
 import { InputForm } from '../../components/InputForm';
 import { Button } from '../../components/Button';
@@ -37,7 +38,6 @@ import {
   ContractLabel,
   Footer,
 } from './styles';
-import { Load } from '../../components/Load';
 
 export type ClientProps = {
   name: string;
@@ -91,7 +91,9 @@ export function NewClient({ data }: Props) {
       if (contractSelected.cancelled) {
         return;
       }
-      setClientContract(contractSelected.uri);
+      if (contractSelected.uri) { //erro de tipagem da expo-image-picker
+        setClientContract(contractSelected.uri);
+      }
     } catch (error) {
       console.log(error);
       Alert.alert('Opa!', "Erro ao carregar imagem.")

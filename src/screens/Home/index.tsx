@@ -18,7 +18,7 @@ export function Home() {
       <Header title="IdeiaClients" />
       <Content>
         <ApresentationImage source={ApresentationImg} resizeMode="contain" />
-        <Subtitle>Gerenciamneto{'\n'}de clientes</Subtitle>
+        <Subtitle>Gerenciamento{'\n'}de clientes{'\n'}da forma fácil!</Subtitle>
       </Content>
     </Container>
   );
