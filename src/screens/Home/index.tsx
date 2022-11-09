@@ -3,7 +3,6 @@ import { UserPlus, UsersThree } from 'phosphor-react-native';
 
 import ApresentationImg from '../../assets/client.png';
 import { Header } from '../../components/Header';
-import { MenuCard } from '../../components/MenuCard';
 import {
   Container,
   Content,
