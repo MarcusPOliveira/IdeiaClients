@@ -25,7 +25,7 @@ https://user-images.githubusercontent.com/47436367/200949878-f0eafb9a-ad43-416b-
 - [Expo Linear Gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
 - [React-Native-Responsive-FontSize](https://github.com/heyman333/react-native-responsive-fontSize)
 - [Phosphor Icons](https://phosphoricons.com/)
-- [magePicker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
+- [ImagePicker](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
 
 
 ## 🔧 Executando a aplicação
