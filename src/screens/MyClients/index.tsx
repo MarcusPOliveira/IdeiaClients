@@ -44,9 +44,8 @@ export function MyClients({ _id }: ClientProps) {
 
   async function onClientRemove() {
     try {
-      const data = await clientsGetAll();
-      await clientRemove(data._id);
-      console.log("id selecionado: ", data._id)
+      await clientRemove(clients);
+      console.log("id selecionado: ", clients)
     } catch (error) {
       console.log(error);
       Alert.alert('Opa!', 'Não foi possível remover o cliente!');
