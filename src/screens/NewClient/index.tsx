@@ -42,7 +42,8 @@ import {
   Footer,
 } from './styles';
 
-export type ClientProps = {
+type ClientProps = {
+  _id: string;
   name: string;
   companyName: string;
   email: string;
@@ -52,7 +53,7 @@ export type ClientProps = {
   type: 'pf' | 'pj';
 }
 
-type Props = {
+type ClientData = {
   data: ClientProps;
 }
 
@@ -70,7 +71,7 @@ const registerPJ = yup.object({
   companyName: yup.string().required('Informe o nome da empresa'),
 });
 
-export function NewClient({ data }: Props) {
+export function NewClient({ data }: ClientData) {
   const [formTypeSelected, setFormTypeSelected] = useState<'pf' | 'pj'>('pf');
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -111,21 +112,34 @@ export function NewClient({ data }: Props) {
     try {
       setIsLoading(true);
       if (formTypeSelected === 'pf') {
-        const clientData = { name, email, cpf, city, clientContract, formTypeSelected };
+        const clientData = {
+          _id: new Date().toString(),
+          name,
+          email,
+          cpf,
+          city,
+          clientContract,
+          formTypeSelected
+        };
         await registerPF.validate(clientData);
-        const newClient = JSON.stringify(clientData);
-        await clientCreate(newClient);
+        const newClient = await clientCreate(clientData);
         console.log(newClient);
-        navigation.navigate('myClients', { clientData });
+        navigation.navigate('myClients');
       }
       if (formTypeSelected === 'pj') {
-        const clientData = { companyName, email, cnpj, city, clientContract, formTypeSelected };
+        const clientData = {
+          _id: new Date().toString(),
+          companyName,
+          email,
+          cnpj,
+          city,
+          clientContract,
+          formTypeSelected
+        };
         await registerPJ.validate(clientData);
-        console.log(clientData);
-        const newClient = JSON.stringify(clientData);
+        const newClient = await clientCreate(clientData);
         console.log(newClient);
-        await clientCreate(newClient);
-        navigation.navigate('myClients', { clientData });
+        navigation.navigate('myClients');
       }
     } catch (error) {
       if (error instanceof yup.ValidationError) {
@@ -143,17 +157,8 @@ export function NewClient({ data }: Props) {
     }
   }
 
-  async function fetchClients() {
-    try {
-      clientsGetAll();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useFocusEffect(
     useCallback(() => {
-      fetchClients();
     }, [formTypeSelected]));
 
   return (
