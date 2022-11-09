@@ -246,7 +246,7 @@ export function NewClient({ data }: ClientData) {
                                   resizeMode="cover"
                                 />
                                 :
-                                <ContractLabel>Nenhuma imagem selecionada</ContractLabel>
+                                <ContractLabel>Nenhum{'\n'}contrato selecionado</ContractLabel>
                           }
                         </ContractButton>
                       </ContractArea>

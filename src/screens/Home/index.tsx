@@ -1,5 +1,4 @@
 import React from 'react';
-import { UserPlus, UsersThree } from 'phosphor-react-native';
 
 import ApresentationImg from '../../assets/client.png';
 import { Header } from '../../components/Header';
