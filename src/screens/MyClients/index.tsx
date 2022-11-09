@@ -1,10 +1,12 @@
 import React, { useCallback, useState } from 'react';
+import { Alert } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { clientsGetAll } from '../../storage/client/clientsGetAll';
 import { ClientDTO } from '../../dtos/ClientDTO';
 import { Header } from '../../components/Header';
 import { ClientCard } from '../../components/ClientCard';
+import { clientRemove } from '../../storage/client/clientRemove';
 import {
   Container,
   Content,
@@ -14,7 +16,7 @@ export type ClientProps = ClientDTO & {
   _id: string;
 }
 
-export function MyClients() {
+export function MyClients({ _id }: ClientProps) {
   const [clients, setClients] = useState<ClientProps[]>([]);
 
   const navigation = useNavigation();
@@ -29,8 +31,26 @@ export function MyClients() {
     }
   }
 
-  async function handleDeleteClient() {
+  async function handleRemoveClient() {
+    Alert.alert(
+      'Remover',
+      'Deseja remover o cliente permanentemente?',
+      [
+        { text: 'Não', style: 'cancel' },
+        { text: 'Sim', onPress: () => onClientRemove() }
+      ]
+    )
+  }
 
+  async function onClientRemove() {
+    try {
+      const data = await clientsGetAll();
+      await clientRemove(data._id);
+      console.log("id selecionado: ", data._id)
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Opa!', 'Não foi possível remover o cliente!');
+    }
   }
 
   useFocusEffect(
@@ -45,7 +65,7 @@ export function MyClients() {
         data={clients}
         keyExtractor={item => item._id}
         renderItem={({ item }) => (
-          <ClientCard data={item} onPress={handleDeleteClient} />
+          <ClientCard data={item} onPress={handleRemoveClient} />
         )}
       />
     </Container>

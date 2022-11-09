@@ -15,7 +15,6 @@ import {
   ContractWrapper,
   ContractLabel,
 } from './styles';
-import { InputLabel } from '../../screens/NewClient/styles';
 
 type Props = TouchableOpacityProps & {
   data: ClientDTO;

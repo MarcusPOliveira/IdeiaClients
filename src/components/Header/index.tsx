@@ -1,6 +1,4 @@
 import React from 'react';
-import { CaretLeft } from 'phosphor-react-native';
-import { useTheme } from 'styled-components/native';
 
 import {
   Container,
@@ -13,9 +11,6 @@ type Props = {
 }
 
 export function Header({ title }: Props) {
-
-  const { colors } = useTheme();
-
   return (
     <Container>
       <TitleWrapper>

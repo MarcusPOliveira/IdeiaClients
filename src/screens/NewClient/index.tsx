@@ -20,7 +20,6 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { validateCpf } from '../../utils/validateCpf';
 import { clientCreate } from '../../storage/client/clientCreate';
-import { clientsGetAll } from '../../storage/client/clientsGetAll';
 import { Load } from '../../components/Load';
 import { Header } from '../../components/Header';
 import { InputForm } from '../../components/InputForm';
@@ -206,7 +205,6 @@ export function NewClient({ data }: ClientData) {
                         placeholder="Digite o nome completo"
                         iconName={User}
                         autoCapitalize='words'
-                        autoCorrect={false}
                         value={name}
                         onChangeText={setName}
                       />
@@ -215,6 +213,7 @@ export function NewClient({ data }: ClientData) {
                         placeholder="Digite o email"
                         iconName={At}
                         autoCapitalize='words'
+                        keyboardType='email-address'
                         autoCorrect={false}
                         value={email}
                         onChangeText={setEmail}
@@ -222,6 +221,7 @@ export function NewClient({ data }: ClientData) {
                       <InputLabel>CPF</InputLabel>
                       <InputForm
                         placeholder="Digite o CPF"
+                        keyboardType='number-pad'
                         iconName={IdentificationCard}
                         value={cpf}
                         onChangeText={setCpf}
@@ -267,6 +267,7 @@ export function NewClient({ data }: ClientData) {
                         placeholder="Digite o email"
                         iconName={At}
                         autoCapitalize='words'
+                        keyboardType='email-address'
                         autoCorrect={false}
                         value={email}
                         onChangeText={setEmail}
@@ -275,6 +276,7 @@ export function NewClient({ data }: ClientData) {
                       <InputForm
                         placeholder="Digite o CNPJ"
                         iconName={Buildings}
+                        keyboardType="number-pad"
                         value={cnpj}
                         onChangeText={setCnpj}
                       />
@@ -295,10 +297,9 @@ export function NewClient({ data }: ClientData) {
                               clientContract ?
                                 <ContractUploaded
                                   source={{ uri: clientContract }}
-                                  resizeMode="cover"
                                 />
                                 :
-                                <ContractLabel>Nenhuma imagem selecionada</ContractLabel>
+                                <ContractLabel>Nenhum{'\n'}contrato selecionado</ContractLabel>
                           }
                         </ContractButton>
                       </ContractArea>
@@ -318,165 +319,4 @@ export function NewClient({ data }: ClientData) {
       </KeyboardAvoidingView>
     </Container>
   );
-}
-
-{
-  /*
-    {
-                  formTypeSelected === "pf" ?
-                    <>
-                      <Controller
-                        control={control}
-                        name="name"
-                        render={({ field: { onChange, value } }) => (
-                          <>
-                            <InputLabel>Nome completo</InputLabel>
-                            <InputForm
-                              iconName={User}
-                              placeholder="Digite o nome completo"
-                              autoCapitalize='words'
-                              onChangeText={onChange}
-                              value={value}
-                              isInvalid={errors.name?.message ? true : false}
-                              errorMessage={errors.name?.message}
-                            />
-                          </>
-                        )}
-                      />
-                      <Controller
-                        control={control}
-                        name="email"
-                        render={({ field: { onChange, value } }) => (
-                          <>
-                            <InputLabel>Email</InputLabel>
-                            <InputForm
-                              iconName={At}
-                              placeholder="exemplo@exemplo.com"
-                              keyboardType='email-address'
-                              onChangeText={onChange}
-                              value={value}
-                              isInvalid={errors.email?.message ? true : false}
-                              errorMessage={errors.email?.message}
-                            />
-                          </>
-                        )}
-                      />
-                      <Controller
-                        control={control}
-                        name="cpf"
-                        render={({ field: { onChange, value } }) => (
-                          <>
-                            <InputLabel>CPF</InputLabel>
-                            <InputForm
-                              iconName={IdentificationCard}
-                              placeholder="000.000.000-00"
-                              keyboardType='number-pad'
-                              onChangeText={onChange}
-                              value={value}
-                              isInvalid={errors.cpf?.message ? true : false}
-                              errorMessage={errors.cpf?.message}
-                            />
-                          </>
-                        )}
-                      />
-                      <Controller
-                        control={control}
-                        name="city"
-                        render={({ field: { onChange, value } }) => (
-                          <>
-                            <InputLabel>Cidade</InputLabel>
-                            <InputForm
-                              iconName={MapPin}
-                              placeholder="Digite a cidade"
-                              autoCapitalize='words'
-                              onSubmitEditing={handleSubmit(handleRegister)}
-                              returnKeyType="send"
-                              onChangeText={onChange}
-                              value={value}
-                              isInvalid={errors.city?.message ? true : false}
-                              errorMessage={errors.city?.message}
-                            />
-                          </>
-                        )}
-                      />
-                    </>
-                    :
-                    <>
-                      <Controller
-                        control={control}
-                        name="companyName"
-                        render={({ field: { onChange, value } }) => (
-                          <>
-                            <InputLabel>Razão Social</InputLabel>
-                            <InputForm
-                              iconName={Briefcase}
-                              placeholder="Razão Social"
-                              autoCapitalize='words'
-                              onChangeText={onChange}
-                              value={value}
-                              isInvalid={errors.companyName?.message ? true : false}
-                              errorMessage={errors.companyName?.message}
-                            />
-                          </>
-                        )}
-                      />
-                      <Controller
-                        control={control}
-                        name="email"
-                        render={({ field: { onChange, value } }) => (
-                          <>
-                            <InputLabel>Email</InputLabel>
-                            <InputForm
-                              iconName={At}
-                              placeholder="exemplo@exemplo.com"
-                              keyboardType='email-address'
-                              onChangeText={onChange}
-                              value={value}
-                              isInvalid={errors.email?.message ? true : false}
-                              errorMessage={errors.email?.message}
-                            />
-                          </>
-                        )}
-                      />
-                      <Controller
-                        control={control}
-                        name="cnpj"
-                        render={({ field: { onChange, value } }) => (
-                          <>
-                            <InputLabel>CNPJ</InputLabel>
-                            <InputForm
-                              iconName={Buildings}
-                              placeholder="00.000.000/0000-00"
-                              keyboardType='number-pad'
-                              onChangeText={onChange}
-                              value={value}
-                              isInvalid={errors.cnpj?.message ? true : false}
-                              errorMessage={errors.cnpj?.message}
-                            />
-                          </>
-                        )}
-                      />
-                      <Controller
-                        control={control}
-                        name="city"
-                        render={({ field: { onChange, value } }) => (
-                          <>
-                            <InputLabel>Cidade</InputLabel>
-                            <InputForm
-                              iconName={MapPin}
-                              placeholder="Digite a cidade"
-                              autoCapitalize='words'
-                              onSubmitEditing={handleSubmit(handleRegister)}
-                              returnKeyType="send"
-                              onChangeText={onChange}
-                              value={value}
-                              isInvalid={errors.city?.message ? true : false}
-                              errorMessage={errors.city?.message}
-                            />
-                          </>
-                        )}
-                      />
-                    </>
-                }
-  */
 }

@@ -14,11 +14,12 @@ import {
 type Props = TextInputProps & {
   iconName?: React.ElementType<IconProps>;
   value?: string;
+  mask?: "cpf";
   errorMessage?: string | null;
   isInvalid?: boolean;
 }
 
-export function InputForm({ iconName: Icon, value, errorMessage = null, isInvalid = false, ...rest }: Props) {
+export function InputForm({ iconName: Icon, value, mask, errorMessage = null, isInvalid = false, ...rest }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
