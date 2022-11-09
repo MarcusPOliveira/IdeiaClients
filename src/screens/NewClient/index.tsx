@@ -14,8 +14,8 @@ import {
   Buildings,
   MapPin
 } from 'phosphor-react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
+import * as ImagePicker from 'expo-image-picker';
 
 import { validateCpf } from '../../utils/validateCpf';
 import { Header } from '../../components/Header';
@@ -31,16 +31,26 @@ import {
   Title,
   Form,
   InputLabel,
+  ContractArea,
+  ContractButton,
+  ContractUploaded,
+  ContractLabel,
   Footer,
 } from './styles';
+import { Load } from '../../components/Load';
 
-export type FormDataProps = {
+export type ClientProps = {
   name: string;
   companyName: string;
   email: string;
   cpf: string;
   cnpj: string;
   city: string;
+  type: 'pf' | 'pj';
+}
+
+type Props = {
+  data: ClientProps;
 }
 
 const registerPF = yup.object({
@@ -57,7 +67,7 @@ const registerPJ = yup.object({
   companyName: yup.string().required('Informe o nome da empresa'),
 });
 
-export function NewClient() {
+export function NewClient({ data }: Props) {
   const [formTypeSelected, setFormTypeSelected] = useState<'pf' | 'pj'>('pf');
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -65,6 +75,30 @@ export function NewClient() {
   const [cpf, setCpf] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [city, setCity] = useState('');
+  const [clientContract, setClientContract] = useState('');
+  const [contractIsLoading, setContractIsLoading] = useState(false);
+
+  async function handleContractSelect() {
+    try {
+      setContractIsLoading(true);
+      const contractSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true,
+      });
+      console.log(contractSelected);
+      if (contractSelected.cancelled) {
+        return;
+      }
+      setClientContract(contractSelected.uri);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Opa!', "Erro ao carregar imagem.")
+    } finally {
+      setContractIsLoading(false);
+    }
+  }
 
   async function handleRegister() {
     try {
@@ -163,6 +197,22 @@ export function NewClient() {
                         value={city}
                         onChangeText={setCity}
                       />
+                      <InputLabel>Contrato</InputLabel>
+                      <ContractArea>
+                        <ContractButton onPress={handleContractSelect}>
+                          {
+                            contractIsLoading ? <Load />
+                              :
+                              clientContract ?
+                                <ContractUploaded
+                                  source={{ uri: clientContract }}
+                                  resizeMode="cover"
+                                />
+                                :
+                                <ContractLabel>Nenhuma imagem selecionada</ContractLabel>
+                          }
+                        </ContractButton>
+                      </ContractArea>
                     </>
                     :
                     <>
@@ -199,6 +249,22 @@ export function NewClient() {
                         value={city}
                         onChangeText={setCity}
                       />
+                      <InputLabel>Contrato</InputLabel>
+                      <ContractArea>
+                        <ContractButton onPress={handleContractSelect}>
+                          {
+                            contractIsLoading ? <Load />
+                              :
+                              clientContract ?
+                                <ContractUploaded
+                                  source={{ uri: clientContract }}
+                                  resizeMode="cover"
+                                />
+                                :
+                                <ContractLabel>Nenhuma imagem selecionada</ContractLabel>
+                          }
+                        </ContractButton>
+                      </ContractArea>
                     </>
                 }
               </Form>

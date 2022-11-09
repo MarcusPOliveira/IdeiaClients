@@ -70,6 +70,36 @@ export const InputLabel = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 `;
 
+export const ContractArea = styled.View`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ContractButton = styled.TouchableOpacity`
+  width: 140px;
+  height: 140px;
+  border-radius: 70px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dotted ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.secondary};
+`;
+
+export const ContractUploaded = styled.Image`
+  width: 140px;
+  height: 140px;
+  border-radius: 70px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ContractLabel = styled.Text`
+  font-size: ${RFValue(14)}px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text};
+  text-align: center;
+`;
+
 export const Footer = styled.View`
   align-items: center;
   justify-content: center;
