@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -15,8 +16,6 @@ import {
 } from 'phosphor-react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, Controller } from 'react-hook-form';
 
 import { validateCpf } from '../../utils/validateCpf';
 import { Header } from '../../components/Header';
@@ -35,7 +34,7 @@ import {
   Footer,
 } from './styles';
 
-type FormDataProps = {
+export type FormDataProps = {
   name: string;
   companyName: string;
   email: string;
@@ -44,24 +43,46 @@ type FormDataProps = {
   city: string;
 }
 
-const registerSchema = yup.object({
-  name: yup.string().required('Informe o nome'),
-  companyName: yup.string().required('Informe o nome da empresa'),
-  email: yup.string().required('Informe o email').email('Email inválido'),
-  cpf: yup.string().required('Informe o CPF').test('test-invalid-cpf', 'CPF inválido', (cpf) => validateCpf(cpf)),
-  cnpj: yup.string().required('Informe o CNPJ'),
+const registerPF = yup.object({
   city: yup.string().required('Inform a cidade'),
+  cpf: yup.string().required('Informe o CPF').test('test-invalid-cpf', 'CPF inválido', (cpf) => validateCpf(cpf)),
+  email: yup.string().required('Informe o email').email('Email inválido'),
+  name: yup.string().required('Informe o nome'),
+});
+
+const registerPJ = yup.object({
+  city: yup.string().required('Inform a cidade'),
+  cnpj: yup.string().required('Informe o CNPJ'),
+  email: yup.string().required('Informe o email').email('Email inválido'),
+  companyName: yup.string().required('Informe o nome da empresa'),
 });
 
 export function NewClient() {
   const [formTypeSelected, setFormTypeSelected] = useState<'pf' | 'pj'>('pf');
+  const [name, setName] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [cnpj, setCnpj] = useState('');
+  const [city, setCity] = useState('');
 
-  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
-    resolver: yupResolver(registerSchema)
-  });
-
-  async function handleRegister(data: FormDataProps) {
-    console.log(data)
+  async function handleRegister() {
+    try {
+      if (formTypeSelected === 'pf') {
+        const data = { name, email, cpf, city };
+        await registerPF.validate(data);
+        console.log(data);
+      }
+      if (formTypeSelected === 'pj') {
+        const data = { companyName, email, cnpj, city };
+        await registerPJ.validate(data);
+        console.log(data);
+      }
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        return Alert.alert('Opa!', error.message)
+      }
+    }
   }
 
   useEffect(
@@ -107,6 +128,97 @@ export function NewClient() {
               </TitleWrapper>
               <Form>
                 {
+                  formTypeSelected === "pf" ?
+                    <>
+                      <InputLabel>Nome completo</InputLabel>
+                      <InputForm
+                        placeholder="Digite o nome completo"
+                        iconName={User}
+                        autoCapitalize='words'
+                        autoCorrect={false}
+                        value={name}
+                        onChangeText={setName}
+                      />
+                      <InputLabel>Email</InputLabel>
+                      <InputForm
+                        placeholder="Digite o email"
+                        iconName={At}
+                        autoCapitalize='words'
+                        autoCorrect={false}
+                        value={email}
+                        onChangeText={setEmail}
+                      />
+                      <InputLabel>CPF</InputLabel>
+                      <InputForm
+                        placeholder="Digite o CPF"
+                        iconName={IdentificationCard}
+                        value={cpf}
+                        onChangeText={setCpf}
+                      />
+                      <InputLabel>Cidade</InputLabel>
+                      <InputForm
+                        placeholder="Digite a cidade"
+                        iconName={MapPin}
+                        autoCapitalize='words'
+                        value={city}
+                        onChangeText={setCity}
+                      />
+                    </>
+                    :
+                    <>
+                      <InputLabel>Razão social</InputLabel>
+                      <InputForm
+                        placeholder="Digite a razão social"
+                        iconName={Briefcase}
+                        autoCapitalize='words'
+                        autoCorrect={false}
+                        value={companyName}
+                        onChangeText={setCompanyName}
+                      />
+                      <InputLabel>Email</InputLabel>
+                      <InputForm
+                        placeholder="Digite o email"
+                        iconName={At}
+                        autoCapitalize='words'
+                        autoCorrect={false}
+                        value={email}
+                        onChangeText={setEmail}
+                      />
+                      <InputLabel>CNPJ</InputLabel>
+                      <InputForm
+                        placeholder="Digite o CNPJ"
+                        iconName={Buildings}
+                        value={cnpj}
+                        onChangeText={setCnpj}
+                      />
+                      <InputLabel>Cidade</InputLabel>
+                      <InputForm
+                        placeholder="Digite a cidade"
+                        iconName={MapPin}
+                        autoCapitalize='words'
+                        value={city}
+                        onChangeText={setCity}
+                      />
+                    </>
+                }
+              </Form>
+              <Footer>
+                <Button
+                  title="Cadastrar"
+                  onPress={handleRegister}
+                />
+              </Footer>
+            </Content>
+          </>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </Container>
+  );
+}
+
+{
+  /*
+    {
                   formTypeSelected === "pf" ?
                     <>
                       <Controller
@@ -262,17 +374,5 @@ export function NewClient() {
                       />
                     </>
                 }
-              </Form>
-              <Footer>
-                <Button
-                  title="Cadastrar"
-                  onPress={handleSubmit(handleRegister)}
-                />
-              </Footer>
-            </Content>
-          </>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </Container>
-  );
+  */
 }
