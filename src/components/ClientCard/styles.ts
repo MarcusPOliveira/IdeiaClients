@@ -22,11 +22,26 @@ export const ContractArea = styled.View`
   justify-content: center;
 `;
 
-export const Contract = styled.Image`
+export const ContractWrapper = styled.View`
   width: 80px;
   height: 80px;
   border-radius: 40px;
   background-color: ${({ theme }) => theme.colors.secondary};
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Contract = styled.Image`
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+`;
+
+export const ContractLabel = styled.Text`
+  font-size: ${RFValue(10)}px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text};
+  text-align: center;
 `;
 
 export const InfoArea = styled.View`

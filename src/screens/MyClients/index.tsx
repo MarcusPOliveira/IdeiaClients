@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { clientsGetAll } from '../../storage/client/clientsGetAll';
 import { ClientDTO } from '../../dtos/ClientDTO';
@@ -18,9 +18,6 @@ export function MyClients() {
   const [clients, setClients] = useState<ClientProps[]>([]);
 
   const navigation = useNavigation();
-  const route = useRoute();
-
-  //const { _id } = route.params as ClientDTO;
 
   async function fetchClients() {
     try {

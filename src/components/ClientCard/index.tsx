@@ -12,7 +12,10 @@ import {
   InfoLabel,
   DeleteButton,
   Contract,
+  ContractWrapper,
+  ContractLabel,
 } from './styles';
+import { InputLabel } from '../../screens/NewClient/styles';
 
 type Props = TouchableOpacityProps & {
   data: ClientDTO;
@@ -26,9 +29,16 @@ export function ClientCard({ data, ...rest }: Props) {
     <Container>
       <ClientInfo>
         <ContractArea>
-          <Contract
-            source={{ uri: data.clientContract }}
-          />
+          <ContractWrapper>
+            {
+              data.clientContract ?
+                <Contract
+                  source={{ uri: data.clientContract }}
+                />
+                :
+                <ContractLabel>Contrato{'\n'}não cadastrado</ContractLabel>
+            }
+          </ContractWrapper>
         </ContractArea>
         <InfoArea>
           {
