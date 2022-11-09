@@ -9,7 +9,6 @@ import {
   Content,
   ApresentationImage,
   Subtitle,
-  MenuWrapper
 } from './styles';
 
 export function Home() {

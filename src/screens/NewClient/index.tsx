@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Alert,
   Keyboard,
@@ -16,8 +16,11 @@ import {
 } from 'phosphor-react-native';
 import * as yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { validateCpf } from '../../utils/validateCpf';
+import { clientCreate } from '../../storage/client/clientCreate';
+import { clientsGetAll } from '../../storage/client/clientsGetAll';
 import { Load } from '../../components/Load';
 import { Header } from '../../components/Header';
 import { InputForm } from '../../components/InputForm';
@@ -76,11 +79,13 @@ export function NewClient({ data }: Props) {
   const [cnpj, setCnpj] = useState('');
   const [city, setCity] = useState('');
   const [clientContract, setClientContract] = useState('');
-  const [contractIsLoading, setContractIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigation = useNavigation();
 
   async function handleContractSelect() {
     try {
-      setContractIsLoading(true);
+      setIsLoading(true);
       const contractSelected = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 1,
@@ -98,32 +103,57 @@ export function NewClient({ data }: Props) {
       console.log(error);
       Alert.alert('Opa!', "Erro ao carregar imagem.")
     } finally {
-      setContractIsLoading(false);
+      setIsLoading(false);
     }
   }
 
   async function handleRegister() {
     try {
+      setIsLoading(true);
       if (formTypeSelected === 'pf') {
-        const data = { name, email, cpf, city };
-        await registerPF.validate(data);
-        console.log(data);
+        const clientData = { name, email, cpf, city, clientContract, formTypeSelected };
+        await registerPF.validate(clientData);
+        const newClient = JSON.stringify(clientData);
+        await clientCreate(newClient);
+        console.log(newClient);
+        navigation.navigate('myClients', { clientData });
       }
       if (formTypeSelected === 'pj') {
-        const data = { companyName, email, cnpj, city };
-        await registerPJ.validate(data);
-        console.log(data);
+        const clientData = { companyName, email, cnpj, city, clientContract, formTypeSelected };
+        await registerPJ.validate(clientData);
+        console.log(clientData);
+        const newClient = JSON.stringify(clientData);
+        console.log(newClient);
+        await clientCreate(newClient);
+        navigation.navigate('myClients', { clientData });
       }
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         return Alert.alert('Opa!', error.message)
       }
+    } finally {
+      setIsLoading(false);
+      setName("");
+      setCompanyName("");
+      setEmail("");
+      setCpf("");
+      setCnpj("");
+      setCity("");
+      setClientContract("");
     }
   }
 
-  useEffect(
-    useCallback(() => {
+  async function fetchClients() {
+    try {
+      clientsGetAll();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchClients();
     }, [formTypeSelected]));
 
   return (
@@ -203,7 +233,7 @@ export function NewClient({ data }: Props) {
                       <ContractArea>
                         <ContractButton onPress={handleContractSelect}>
                           {
-                            contractIsLoading ? <Load />
+                            isLoading ? <Load />
                               :
                               clientContract ?
                                 <ContractUploaded
@@ -255,7 +285,7 @@ export function NewClient({ data }: Props) {
                       <ContractArea>
                         <ContractButton onPress={handleContractSelect}>
                           {
-                            contractIsLoading ? <Load />
+                            isLoading ? <Load />
                               :
                               clientContract ?
                                 <ContractUploaded
@@ -274,6 +304,7 @@ export function NewClient({ data }: Props) {
                 <Button
                   title="Cadastrar"
                   onPress={handleRegister}
+                  isLoading={isLoading}
                 />
               </Footer>
             </Content>
