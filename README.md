@@ -34,3 +34,4 @@ https://user-images.githubusercontent.com/47436367/200949878-f0eafb9a-ad43-416b-
 3. Rode o comando ``yarn install`` ou ``npm install`` para instalar a pasta ``node_modules``
 4. Execute o comando ``expo start`` para rodar a aplicação com o Expo. Aguarde o Metro inicializar.
 5. Logo, com seu emulador de preferência ou em seu dispositivo físico, abra o aplicativo [ExpoGo](https://expo.dev/client) e selecione a aplicação IdeiaClients.
+6. Também é possível efetuar o download do apk e instalar em um dispositivo Android pelo seguinte link: https://expo.dev/accounts/mpmarcus/projects/IdeiaClients/builds/31700ef0-d190-4b19-8e5e-07a622fa8fd1
